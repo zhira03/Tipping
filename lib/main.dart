@@ -36,6 +36,7 @@ class _TipMeState extends State<TipMe> {
         title: const Text('TipMe'),
         ),
       body : Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Container(
             padding: const EdgeInsets.all(18),
@@ -45,20 +46,19 @@ class _TipMeState extends State<TipMe> {
               ),
             child: Column(
               children: [
-                const Text('Total Tip per Person', 
+                const Text('Tip per Person', 
                     style: TextStyle(
                       fontSize: 30, 
                       color: Colors.white),
                       ),
-                const Text("Taku is the best", 
+                const Text("\$23.50", 
                     style: TextStyle(
                       fontSize: 20, 
-                      color: Colors.white),
+                      color: Color.fromARGB(255, 213, 183, 183)),
                       ),
               ],
             ),
             ),
-          
         ]
       ),
     );
