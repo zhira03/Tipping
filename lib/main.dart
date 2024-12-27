@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tipme/widgets/percentage_slider.dart';
 import 'package:tipme/widgets/person_counter.dart';
 
 void main() {
@@ -32,7 +33,7 @@ class TipMe extends StatefulWidget {
 class _TipMeState extends State<TipMe> {
   int _personCount = 1;
   
-  double _tipPercentage = 0.0;
+  double _tipPercentage = 0.05;
 
   void _increment() {
     setState(() {
@@ -75,7 +76,7 @@ class _TipMeState extends State<TipMe> {
                         fontSize: 30, 
                         color: Colors.white),
                         ),
-                  const Text("\$23.50", 
+                   Text("\$23.50", 
                       style: TextStyle(
                         fontSize: 20, 
                         color: Color.fromARGB(255, 213, 183, 183)),
@@ -138,14 +139,11 @@ class _TipMeState extends State<TipMe> {
                       color: Colors.black,
                     ),
                   ),
-                  Slider(value: _tipPercentage, 
-                  onChanged: (value)=>{
-                    setState(() => _tipPercentage = value),    
-                  },
-                  min: 0.05,
-                  max: 0.45,
-                  //divisions: 5,
-                  )
+                  TipSlider(tipPercentage: _tipPercentage, onChanged: (double value) { 
+                    setState(() {
+                      _tipPercentage = value.clamp(0.05, 0.45);
+                    });
+                   },)
                 ],
               ),
             ),
@@ -155,6 +153,8 @@ class _TipMeState extends State<TipMe> {
     );
   }
 }
+
+
 
 
 
