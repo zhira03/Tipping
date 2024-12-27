@@ -106,36 +106,50 @@ class _TipMeState extends State<TipMe> {
                     ),
                   ),
                   //shared bill part
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Split bill",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                        )),
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.remove),
-                              onPressed: _decrement,
-                            ),
-                            Text("$_personCount"),
-                            IconButton(
-                                icon: const Icon(Icons.add),
-                                onPressed:_increment,
-                              )
-                          ],)
-                      ],
-                    ),
-                  )
+                  SplittingBill(personCount: _personCount)
                 ],
               ),
             ),
           ),
         ]
+      ),
+    );
+  }
+}
+
+class SplittingBill extends StatelessWidget {
+  const SplittingBill({
+    super.key,
+    required int personCount,
+  }) : _personCount = personCount;
+
+  final int _personCount;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("Split bill",
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.black,
+          )),
+          Row(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.remove),
+                onPressed: () =>{},
+              ),
+              Text("$_personCount"),
+              IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed:()=>{},
+                )
+            ],)
+        ],
       ),
     );
   }
