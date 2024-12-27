@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tipme/widgets/person_counter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -106,7 +107,39 @@ class _TipMeState extends State<TipMe> {
                     ),
                   ),
                   //shared bill part
-                  SplittingBill(personCount: _personCount)
+                  SplittingBill(
+                    personCount: _personCount, 
+                    onIncrement: _increment, 
+                    onDecrement: _decrement),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Tip",
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                          )),
+                        Text("\$20",
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                          )),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    "25%",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                  ),
+                  Slider(value: 0.5, 
+                  onChanged: (value)=>{
+                    print("Value is $value")
+                  })
                 ],
               ),
             ),
@@ -117,41 +150,5 @@ class _TipMeState extends State<TipMe> {
   }
 }
 
-class SplittingBill extends StatelessWidget {
-  const SplittingBill({
-    super.key,
-    required int personCount,
-  }) : _personCount = personCount;
 
-  final int _personCount;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text("Split bill",
-          style: TextStyle(
-            fontSize: 20,
-            color: Colors.black,
-          )),
-          Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.remove),
-                onPressed: () =>{},
-              ),
-              Text("$_personCount"),
-              IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed:()=>{},
-                )
-            ],)
-        ],
-      ),
-    );
-  }
-}
 
