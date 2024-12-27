@@ -144,7 +144,8 @@ class _TipMeState extends State<TipMe> {
                   },
                   min: 0.05,
                   max: 0.45,
-                  divisions: 5,)
+                  //divisions: 5,
+                  )
                 ],
               ),
             ),
