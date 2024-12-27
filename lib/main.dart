@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tipme/widgets/person_counter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,6 +31,8 @@ class TipMe extends StatefulWidget {
 
 class _TipMeState extends State<TipMe> {
   int _personCount = 1;
+  
+  double _tipPercentage = 0.0;
 
   void _increment() {
     setState(() {
@@ -106,31 +109,42 @@ class _TipMeState extends State<TipMe> {
                     ),
                   ),
                   //shared bill part
+                  SplittingBill(
+                    personCount: _personCount, 
+                    onIncrement: _increment, 
+                    onDecrement: _decrement),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Split bill",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                        )),
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.remove),
-                              onPressed: _decrement,
-                            ),
-                            Text("$_personCount"),
-                            IconButton(
-                                icon: const Icon(Icons.add),
-                                onPressed:_increment,
-                              )
-                          ],)
+                        Text("Tip",
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                          )),
+                        Text("\$20",
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                          )),
                       ],
                     ),
-                  )
+                  ),
+                  Text(
+                    "${(_tipPercentage *100).round()}%",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                  ),
+                  Slider(value: _tipPercentage, 
+                  onChanged: (value)=>{
+                    setState(() => _tipPercentage = value),    
+                  },
+                  min: 0.05,
+                  max: 0.45,
+                  divisions: 5,)
                 ],
               ),
             ),
@@ -140,4 +154,6 @@ class _TipMeState extends State<TipMe> {
     );
   }
 }
+
+
 
