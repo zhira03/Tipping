@@ -38,27 +38,85 @@ class _TipMeState extends State<TipMe> {
       body : Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Container(
-            padding: const EdgeInsets.all(18),
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 60, 95, 220),
-              borderRadius: BorderRadius.circular(10),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 59, 127, 115),
+                borderRadius: BorderRadius.circular(10),
+                ),
+              child: Column(
+                children: [
+                  const Text('Tip per Person', 
+                      style: TextStyle(
+                        fontSize: 30, 
+                        color: Colors.white),
+                        ),
+                  const Text("\$23.50", 
+                      style: TextStyle(
+                        fontSize: 20, 
+                        color: Color.fromARGB(255, 213, 183, 183)),
+                        ),
+                ],
               ),
-            child: Column(
-              children: [
-                const Text('Tip per Person', 
-                    style: TextStyle(
-                      fontSize: 30, 
-                      color: Colors.white),
-                      ),
-                const Text("\$23.50", 
-                    style: TextStyle(
-                      fontSize: 20, 
-                      color: Color.fromARGB(255, 213, 183, 183)),
-                      ),
-              ],
+              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 176, 187, 226),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: const Color.fromARGB(255, 245, 245, 245),
+                  width: 2),
+                ),
+              child: Column(
+                children: [
+                  TextField(
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      print("Value is $value");
+                    },
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.attach_money),
+                      labelText:'Bill Amount',
+                      //prefix: Text('Bill Amount'),
+                    ),
+                  ),
+                  //shared bill part
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text("Split bill",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                      )),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.remove),
+                            onPressed: () {
+                              print("Remove");
+                            },
+                          ),
+                          const Text("Person"),
+                          IconButton(
+                              icon: const Icon(Icons.add),
+                              onPressed: () {
+                                print("Remove");
+                              },
+                            )
+                        ],)
+                    ],
+                  )
+                ],
+              ),
             ),
-            ),
+          ),
         ]
       ),
     );
