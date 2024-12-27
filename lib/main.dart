@@ -29,6 +29,25 @@ class TipMe extends StatefulWidget {
 }
 
 class _TipMeState extends State<TipMe> {
+  int _personCount = 1;
+
+  void _increment() {
+    setState(() {
+      _personCount = _personCount + 1;
+    });
+  }
+
+  void _decrement() {
+    setState(() {
+      if (_personCount > 0) {
+        _personCount = _personCount - 1;
+      } else {
+        _personCount = 0;
+      }
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,16 +120,12 @@ class _TipMeState extends State<TipMe> {
                           children: [
                             IconButton(
                               icon: const Icon(Icons.remove),
-                              onPressed: () {
-                                print("Remove");
-                              },
+                              onPressed: _decrement,
                             ),
-                            const Text("Person"),
+                            Text("$_personCount"),
                             IconButton(
                                 icon: const Icon(Icons.add),
-                                onPressed: () {
-                                  print("Remove");
-                                },
+                                onPressed:_increment,
                               )
                           ],)
                       ],
