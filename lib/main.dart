@@ -87,31 +87,34 @@ class _TipMeState extends State<TipMe> {
                     ),
                   ),
                   //shared bill part
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text("Split bill",
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                      )),
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.remove),
-                            onPressed: () {
-                              print("Remove");
-                            },
-                          ),
-                          const Text("Person"),
-                          IconButton(
-                              icon: const Icon(Icons.add),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Split bill",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                        )),
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.remove),
                               onPressed: () {
                                 print("Remove");
                               },
-                            )
-                        ],)
-                    ],
+                            ),
+                            const Text("Person"),
+                            IconButton(
+                                icon: const Icon(Icons.add),
+                                onPressed: () {
+                                  print("Remove");
+                                },
+                              )
+                          ],)
+                      ],
+                    ),
                   )
                 ],
               ),
