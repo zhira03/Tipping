@@ -31,6 +31,8 @@ class TipMe extends StatefulWidget {
 
 class _TipMeState extends State<TipMe> {
   int _personCount = 1;
+  
+  double _tipPercentage = 0.0;
 
   void _increment() {
     setState(() {
@@ -130,16 +132,19 @@ class _TipMeState extends State<TipMe> {
                     ),
                   ),
                   Text(
-                    "25%",
+                    "${(_tipPercentage *100).round()}%",
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.black,
                     ),
                   ),
-                  Slider(value: 0.5, 
+                  Slider(value: _tipPercentage, 
                   onChanged: (value)=>{
-                    print("Value is $value")
-                  })
+                    setState(() => _tipPercentage = value),    
+                  },
+                  min: 0.05,
+                  max: 0.45,
+                  divisions: 5,)
                 ],
               ),
             ),
