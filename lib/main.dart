@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tipme/widgets/amountBiller.dart';
 import 'package:tipme/widgets/percentage_slider.dart';
 import 'package:tipme/widgets/person_counter.dart';
+import 'package:tipme/widgets/totalPerPerson.dart';
 
 void main() {
   runApp(const MyApp());
@@ -67,35 +68,16 @@ class _TipMeState extends State<TipMe> {
     double total = _perPeronTotal();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TipMe'),
+        title: const Text('TipMe',
+          style: TextStyle(
+            color: Colors.green,
+            fontWeight: FontWeight.bold
+          )),
         ),
       body : Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              padding: const EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 59, 127, 115),
-                borderRadius: BorderRadius.circular(10),
-                ),
-              child: Column(
-                children: [
-                  const Text('Tip per Person', 
-                      style: TextStyle(
-                        fontSize: 30, 
-                        color: Colors.white),
-                        ),
-                     Text("\$${total.toStringAsFixed(2)}", 
-                      style: TextStyle(
-                        fontSize: 20, 
-                        color: Color.fromARGB(255, 213, 183, 183)),
-                        ),
-                ],
-              ),
-              ),
-          ),
+          TipPerPerson(total: total),
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Container(
@@ -113,7 +95,7 @@ class _TipMeState extends State<TipMe> {
                     billAmount: _billTotal.toStringAsFixed(2),
                     onChanged: (value){
                       setState(() {
-                      _billTotal = double.parse(value);
+                      _billTotal = double.tryParse(value) ?? 0.00;
                     });
                     }),
                   //shared bill part
@@ -150,16 +132,29 @@ class _TipMeState extends State<TipMe> {
                     setState(() {
                       _tipPercentage = value.clamp(0.05, 0.45);
                     });
-                   },)
+                   },),
                 ],
               ),
             ),
           ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Container(
+              child: Text("We can add random text here Maybe about the food/ restuarant",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          )
         ]
       ),
     );
   }
 }
+
+
 
 
 
