@@ -40,6 +40,10 @@ class _TipMeState extends State<TipMe> {
     return (( _billTotal * _tipPercentage) + (_billTotal)) / _personCount;
   }
 
+  double _tipAmount () {
+    return (_billTotal * _tipPercentage);
+  }
+
   void _increment() {
     setState(() {
       _personCount = _personCount + 1;
@@ -59,6 +63,7 @@ class _TipMeState extends State<TipMe> {
 
   @override
   Widget build(BuildContext context) {
+    double tipTotal = _tipAmount();
     double total = _perPeronTotal();
     return Scaffold(
       appBar: AppBar(
@@ -126,7 +131,7 @@ class _TipMeState extends State<TipMe> {
                             fontSize: 20,
                             color: Colors.black,
                           )),
-                        Text("\$20",
+                        Text("\$${tipTotal.toStringAsFixed(2)}",
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.black,
