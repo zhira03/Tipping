@@ -33,8 +33,12 @@ class TipMe extends StatefulWidget {
 
 class _TipMeState extends State<TipMe> {
   int _personCount = 1;
-  
+  double _billTotal = 0.00;
   double _tipPercentage = 0.05;
+  
+  double _perPeronTotal() {
+    return (( _billTotal * _tipPercentage) + (_billTotal)) / _personCount;
+  }
 
   void _increment() {
     setState(() {
@@ -44,7 +48,7 @@ class _TipMeState extends State<TipMe> {
 
   void _decrement() {
     setState(() {
-      if (_personCount > 0) {
+      if (_personCount > 1) {
         _personCount = _personCount - 1;
       } else {
         _personCount = 0;
@@ -55,6 +59,7 @@ class _TipMeState extends State<TipMe> {
 
   @override
   Widget build(BuildContext context) {
+    double total = _perPeronTotal();
     return Scaffold(
       appBar: AppBar(
         title: const Text('TipMe'),
@@ -77,7 +82,7 @@ class _TipMeState extends State<TipMe> {
                         fontSize: 30, 
                         color: Colors.white),
                         ),
-                   Text("\$23.50", 
+                     Text("\$${total.toStringAsFixed(2)}", 
                       style: TextStyle(
                         fontSize: 20, 
                         color: Color.fromARGB(255, 213, 183, 183)),
@@ -100,11 +105,12 @@ class _TipMeState extends State<TipMe> {
               child: Column(
                 children: [
                   TipBillerField(
-                    billAmount: "50.00",
-                    onChanged: (
-                    String value) { 
-                      print("Bill amount: $value");
-                     },),
+                    billAmount: _billTotal.toStringAsFixed(2),
+                    onChanged: (value){
+                      setState(() {
+                      _billTotal = double.parse(value);
+                    });
+                    }),
                   //shared bill part
                   SplittingBill(
                     personCount: _personCount, 
