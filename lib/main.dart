@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tipme/widgets/amountBiller.dart';
 import 'package:tipme/widgets/percentage_slider.dart';
 import 'package:tipme/widgets/person_counter.dart';
 
@@ -88,6 +89,7 @@ class _TipMeState extends State<TipMe> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Container(
+              padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 176, 187, 226),
                 borderRadius: BorderRadius.circular(10),
@@ -97,18 +99,12 @@ class _TipMeState extends State<TipMe> {
                 ),
               child: Column(
                 children: [
-                  TextField(
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      print("Value is $value");
-                    },
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.attach_money),
-                      labelText:'Bill Amount',
-                      //prefix: Text('Bill Amount'),
-                    ),
-                  ),
+                  TipBillerField(
+                    billAmount: "50.00",
+                    onChanged: (
+                    String value) { 
+                      print("Bill amount: $value");
+                     },),
                   //shared bill part
                   SplittingBill(
                     personCount: _personCount, 
@@ -153,6 +149,7 @@ class _TipMeState extends State<TipMe> {
     );
   }
 }
+
 
 
 
