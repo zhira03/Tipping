@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tipme/providers/ThemeProvider.dart';
 import 'package:tipme/providers/TipCalModel.dart';
 import 'package:tipme/widgets/amountBiller.dart';
 import 'package:tipme/widgets/percentage_slider.dart';
 import 'package:tipme/widgets/person_counter.dart';
+import 'package:tipme/widgets/toogleThemeButton.dart';
 import 'package:tipme/widgets/totalPerPerson.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(create: (context) => TipCalModel(),
-  child: const MyApp()));
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => TipCalModel()),
+      ChangeNotifierProvider(create : (context) => ThemeProvider())
+    ],
+     child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,13 +24,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    
+    final themeProvider = Provider.of<ThemeProvider>((context));
     return MaterialApp(
       title: 'TipMe',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: themeProvider.currentTheme,
       home: const TipMe(),
     );
   }
@@ -41,6 +45,7 @@ class _TipMeState extends State<TipMe> {
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<TipCalModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('TipMe',
@@ -48,6 +53,9 @@ class _TipMeState extends State<TipMe> {
             color: Colors.green,
             fontWeight: FontWeight.bold
           )),
+        actions: [
+          ToggleThemeIcon(),
+        ],
         ),
       body : Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -131,6 +139,7 @@ class _TipMeState extends State<TipMe> {
     );
   }
 }
+
 
 
 
