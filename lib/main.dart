@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tipme/providers/ThemeProvider.dart';
+import 'package:tipme/providers/TipCalModel.dart';
 import 'package:tipme/widgets/amountBiller.dart';
 import 'package:tipme/widgets/percentage_slider.dart';
 import 'package:tipme/widgets/person_counter.dart';
+import 'package:tipme/widgets/toogleThemeButton.dart';
 import 'package:tipme/widgets/totalPerPerson.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => TipCalModel()),
+      ChangeNotifierProvider(create : (context) => ThemeProvider())
+    ],
+     child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,12 +24,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>((context));
     return MaterialApp(
       title: 'TipMe',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: themeProvider.currentTheme,
       home: const TipMe(),
     );
   }
@@ -33,39 +41,11 @@ class TipMe extends StatefulWidget {
 }
 
 class _TipMeState extends State<TipMe> {
-  int _personCount = 1;
-  double _billTotal = 0.00;
-  double _tipPercentage = 0.05;
-  
-  double _perPeronTotal() {
-    return (( _billTotal * _tipPercentage) + (_billTotal)) / _personCount;
-  }
-
-  double _tipAmount () {
-    return (_billTotal * _tipPercentage);
-  }
-
-  void _increment() {
-    setState(() {
-      _personCount = _personCount + 1;
-    });
-  }
-
-  void _decrement() {
-    setState(() {
-      if (_personCount > 1) {
-        _personCount = _personCount - 1;
-      } else {
-        _personCount = 0;
-      }
-    });
-  }
-
-
+ 
   @override
   Widget build(BuildContext context) {
-    double tipTotal = _tipAmount();
-    double total = _perPeronTotal();
+    final model = Provider.of<TipCalModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('TipMe',
@@ -73,11 +53,14 @@ class _TipMeState extends State<TipMe> {
             color: Colors.green,
             fontWeight: FontWeight.bold
           )),
+        actions: [
+          ToggleThemeIcon(),
+        ],
         ),
       body : Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          TipPerPerson(total: total),
+          TipPerPerson(total: model.totalPerPerson),
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Container(
@@ -92,17 +75,21 @@ class _TipMeState extends State<TipMe> {
               child: Column(
                 children: [
                   TipBillerField(
-                    billAmount: _billTotal.toStringAsFixed(2),
+                    billAmount: model.billTotal.toStringAsFixed(2),
                     onChanged: (value){
-                      setState(() {
-                      _billTotal = double.tryParse(value) ?? 0.00;
-                    });
+                      model.updateBillTotal(double.parse(value));
                     }),
                   //shared bill part
                   SplittingBill(
-                    personCount: _personCount, 
-                    onIncrement: _increment, 
-                    onDecrement: _decrement),
+                    personCount: model.personCount, 
+                    onDecrement: (){
+                      if(model.personCount > 1){
+                        model.updatePersonCount(model.personCount - 1);
+                      }
+                    }, 
+                    onIncrement: (){
+                      model.updatePersonCount(model.personCount +1);
+                    }),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
@@ -113,7 +100,7 @@ class _TipMeState extends State<TipMe> {
                             fontSize: 20,
                             color: Colors.black,
                           )),
-                        Text("\$${tipTotal.toStringAsFixed(2)}",
+                        Text("\$${(model.tipPercentage * model.billTotal).toStringAsFixed(2)}",
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.black,
@@ -122,16 +109,15 @@ class _TipMeState extends State<TipMe> {
                     ),
                   ),
                   Text(
-                    "${(_tipPercentage *100).round()}%",
+                    "${(model.tipPercentage *100).round()}%",
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.black,
                     ),
                   ),
-                  TipSlider(tipPercentage: _tipPercentage, onChanged: (double value) { 
-                    setState(() {
-                      _tipPercentage = value.clamp(0.05, 0.45);
-                    });
+                  TipSlider(tipPercentage: model.tipPercentage, 
+                  onChanged: (double value) { 
+                    model.updateTipPercentage(value);
                    },),
                 ],
               ),
@@ -153,6 +139,7 @@ class _TipMeState extends State<TipMe> {
     );
   }
 }
+
 
 
 
