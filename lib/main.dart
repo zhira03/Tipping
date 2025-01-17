@@ -76,7 +76,7 @@ class _TipMeState extends State<TipMe> {
                     personCount: model.personCount, 
                     onDecrement: (){
                       if(model.personCount > 1){
-                        model.updatePersonCount(model.personCount);
+                        model.updatePersonCount(model.personCount - 1);
                       }
                     }, 
                     onIncrement: (){
